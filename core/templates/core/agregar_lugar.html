@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm p-4">
+            <h3 class="mb-4">Registrar Nuevo Lugar Patrimonial</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Ubicación</label>
+                    <input type="text" name="ubicacion" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Año de Construcción</label>
+                    <input type="number" name="anio_construccion" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">URL de la Imagen</label>
+                    <input type="url" name="imagen" class="form-control" placeholder="https://..." required>
+                </div>
+
+                <!-- Selección de Categoría Existente -->
+                <div class="mb-3">
+                    <label class="form-label">Categoría Existente</label>
+                    <select name="categoria" class="form-select">
+                        <option value="">-- Seleccionar de la lista --</option>
+                        {% for cat in categorias %}
+                            <option value="{{ cat.id }}">{{ cat.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Crear Nueva Categoría opcional -->
+                <div class="mb-3">
+                    <label class="form-label">O crear una Nueva Categoría</label>
+                    <input type="text" name="nueva_categoria" class="form-control" placeholder="Ej: Monumento Nacional, Mural, Parque">
+                    <div class="form-text">Si no hay categorías en la lista, escribe una aquí para crearla automáticamente.</div>
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100 mt-3">Guardar Lugar</button>
+                <a href="{% url 'gestion_lugares' %}" class="btn btn-outline-secondary w-100 mt-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2 class="mb-3">Catálogo Patrimonial</h2>
+        <!-- Filtro por categoría -->
+        <div class="btn-group mb-3" role="group">
+            <a href="{% url 'catalogo' %}" class="btn btn-outline-dark {% if not selected_categoria %}active{% endif %}">Todas</a>
+            {% for cat in categorias %}
+                <a href="{% url 'catalogo' %}?categoria={{ cat.id }}" class="btn btn-outline-dark {% if selected_categoria == cat.id|stringformat:'s' %}active{% endif %}">{{ cat.nombre }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% for lugar in lugares %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <img src="{{ lugar.imagen }}" class="card-img-top" alt="{{ lugar.nombre }}" style="height: 200px; object-fit: cover;">
+            <div class="card-body d-flex flex-column">
+                <span class="badge bg-secondary mb-2 align-self-start">{{ lugar.categoria.nombre }}</span>
+                <h5 class="card-title">{{ lugar.nombre }}</h5>
+                <p class="card-text text-muted small">📍 {{ lugar.ubicacion }} &bull; 📅 {{ lugar.anio_construccion }}</p>
+                <p class="card-text">{{ lugar.descripcion|truncatechars:90 }}</p>
+                <a href="{% url 'detalle_lugar' lugar.id %}" class="btn btn-dark btn-sm mt-auto">Ver más información</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-warning text-center">No se encontraron lugares patrimoniales en esta categoría.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

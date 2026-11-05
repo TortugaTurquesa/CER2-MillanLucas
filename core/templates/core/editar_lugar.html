@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm p-4">
+            <h3 class="mb-4">Editar Lugar Patrimonial</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" value="{{ lugar.nombre }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="4" required>{{ lugar.descripcion }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Ubicación</label>
+                    <input type="text" name="ubicacion" class="form-control" value="{{ lugar.ubicacion }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Año de Construcción</label>
+                    <input type="number" name="anio_construccion" class="form-control" value="{{ lugar.anio_construccion }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">URL de la Imagen</label>
+                    <input type="url" name="imagen" class="form-control" value="{{ lugar.imagen }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Categoría Actual: <strong>{{ lugar.categoria.nombre }}</strong></label>
+                    <select name="categoria" class="form-select">
+                        <option value="">-- Cambiar categoría existente --</option>
+                        {% for cat in categorias %}
+                            <option value="{{ cat.id }}" {% if cat.id == lugar.categoria.id %}selected{% endif %}>{{ cat.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">O crear una Nueva Categoría</label>
+                    <input type="text" name="nueva_categoria" class="form-control" placeholder="Dejar en blanco si no se cambia">
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Guardar Cambios</button>
+                <a href="{% url 'gestion_lugares' %}" class="btn btn-outline-secondary w-100 mt-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

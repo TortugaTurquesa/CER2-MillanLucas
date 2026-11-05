@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Panel de Gestión Patrimonial</h2>
+    <a href="{% url 'agregar_lugar' %}" class="btn btn-dark">+ Agregar Nuevo Lugar</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Ubicación</th>
+                    <th>Año</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lugar in lugares %}
+                <tr>
+                    <td>{{ lugar.id }}</td>
+                    <td><strong>{{ lugar.nombre }}</strong></td>
+                    <td><span class="badge bg-secondary">{{ lugar.categoria.nombre }}</span></td>
+                    <td>{{ lugar.ubicacion }}</td>
+                    <td>{{ lugar.anio_construccion }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'editar_lugar' lugar.id %}" class="btn btn-sm btn-outline-dark">Editar</a>
+                        <a href="{% url 'eliminar_lugar' lugar.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay registros de lugares.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
